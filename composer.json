@@ -2,8 +2,8 @@
     "name": "fremeo/frontend",
     "description": "Frontend für fremeo",
     "license": "proprietary",
-    "type": "frontend",
-    "keywords": ["fremeo", "fremeo-frontend"],
+    "type": "template",
+    "keywords": ["fremeo", "fremeo-template", "frontend"],
     "require": {
         "php": "^8.0",
         "fremeo/core": "^v0.0"
