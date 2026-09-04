@@ -2,7 +2,7 @@
     "name": "fremeo/frontend",
     "description": "Frontend für fremeo",
     "license": "proprietary",
-    "type": "fremeo-frontend",
+    "type": "frontend",
     "keywords": ["fremeo", "fremeo-frontend"],
     "require": {
         "php": "^8.0",
