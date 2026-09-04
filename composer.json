@@ -1,0 +1,15 @@
+{
+    "name": "fremeo/frontend",
+    "description": "Frontend für fremeo",
+    "license": "proprietary",
+    "type": "fremeo-frontend",
+    "keywords": ["fremeo", "fremeo-frontend"],
+    "require": {
+        "php": "^8.0",
+        "fremeo/core": "^v0.0"
+    },
+    "prefer-stable": true,
+	"psr-4": {
+        "fremeo\\frontend\\": "system/frontend/"
+    }
+}
