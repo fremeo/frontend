@@ -5,7 +5,6 @@
 			<a class="nav-link" href="account"><i class="fas fa-user-circle"></i> Meine Übersicht</a>
 			{block name="account_navi_left"}
 			{/block}
-			<a class="nav-link" href="account/setting"><i class="fas fa-user-circle"></i> Einstellungen</a>
 		</div>
 	</div>
 	<div class="col-9">
