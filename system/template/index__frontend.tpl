@@ -8,7 +8,7 @@
 		{block name="header"}
 			
 			
-				<div class="bg-light py-1 border-bottom" style="position: sticky;top: 0;z-index: 10000;">
+				<div class="bg-light py-1 border-bottom" style="position: sticky;top: 0;z-index: 1000;">
 					<div class="container">
 						<div class="row">
 							<div class="col-md-6 d-none d-md-block text-center text-md-start">
