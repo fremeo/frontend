@@ -17,5 +17,8 @@ $Pattern['PAGE']['D']['LANGUAGE'] = [
 ##$C['CData']->registerPattern($Pattern);
 
 
-$C['fremeo/frontend']['CData'] = new \phploader\CData( [ 'DB' => ['FILENAME' => PROJECT_ROOT.'data/fremeo~frontend/data.db', 'FILENAME_C' => PROJECT_ROOT.'data_c/fremeo~frontend/data.db' ] ] );
+#$C['fremeo/frontend']['CData'] = new \phploader\CData( [ 'DB' => ['FILENAME' => PROJECT_ROOT.'data/fremeo~frontend/data.db', 'FILENAME_C' => PROJECT_ROOT.'data_c/fremeo~frontend/data.db' ] ] );
+/*if (!isset($C['fremeo/frontend']['CData'])) {
+    $C->set('CData', new \phploader\CData( [ 'DB' => ['FILENAME' => PROJECT_ROOT.'data/fremeo~frontend/data.db', 'FILENAME_C' => PROJECT_ROOT.'data_c/fremeo~frontend/data.db' ] ] ), 'fremeo/frontend');
+}*/
 $C['fremeo/frontend']['CData']->registerPattern($Pattern);
