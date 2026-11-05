@@ -1,4 +1,7 @@
 # Changelog
+#0.0.1
++ Pattern NAVIGATION (Active, Name, Json), Klasse Frontend (set_navigation / get_navigation)
++ Admin: Design -> Menu (admin__menu.list): Navigationen mit eigener ID, Name, Active und Menübaum (URL, Fenster)
 #0.0.0
 + Geburt
 

@@ -1,7 +1,7 @@
 <?php
 #DB-----------------
 
-$Pattern = [];
+$Pattern = include __DIR__ . '/system/default/default.pattern.php'; # NAVIGATION
 /*
 $Pattern['FRON'] = [
 	'Active'		=> ['Type' => 'checkbox'],
@@ -22,3 +22,6 @@ $Pattern['PAGE']['D']['LANGUAGE'] = [
     $C->set('CData', new \phploader\CData( [ 'DB' => ['FILENAME' => PROJECT_ROOT.'data/fremeo~frontend/data.db', 'FILENAME_C' => PROJECT_ROOT.'data_c/fremeo~frontend/data.db' ] ] ), 'fremeo/frontend');
 }*/
 $C['fremeo/frontend']['CData']->registerPattern($Pattern);
+
+# Zwischenschicht zu CData, Instanz: $C['fremeo/frontend']['Frontend'] (Klasse über Composer PSR-4 aus composer.json: fremeo\frontend\ => system/core/)
+$C->set('Frontend', fn () => new \fremeo\frontend\Frontend($C['fremeo/frontend']['CData']), 'fremeo/frontend');
