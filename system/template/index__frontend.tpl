@@ -1,94 +1,99 @@
 {*
-	Layout des Frontends (nur Frontend-Seiten, nicht der Admin-Bereich). Einstellungen: $D.R.Frontend (system/index__frontend.php, default.config.php).
-	Blöcke für andere Module/Templates: title, favicon, head (append), navigation_top, navigation_main, header, inner_body, footer, body_end.
+	Layout des Frontends. Theme-Assets und Farbschema liefert der Core ueber die Template-Kette.
+	Bloecke: title, favicon, head, navigation_top, navigation_main, header, inner_body, footer, body_end.
 *}
-{block name="title"}{$D.R.Frontend.page_title|escape}{/block}
-
-{block name="favicon"}{if $D.R.Frontend.favicon_url}<link rel="icon" href="{$D.R.Frontend.favicon_url|escape}">{/if}{/block}
-
+{block name="title"}{$D.C.Setting->get('fremeo/frontend', 'page_meta_title')|escape}{/block}
+{block name="favicon"}{if $D.R.Frontend.favicon_url|default:''}<link rel="icon" href="{$D.R.Frontend.favicon_url|escape}">{/if}{/block}
 {block name="head" append}
-	{if $D.R.Frontend.meta_description}<meta name="description" content="{$D.R.Frontend.meta_description|escape}">{/if}
-	{if $D.R.Frontend.css}<style>{$D.R.Frontend.css}</style>{/if}
-	{$D.R.Frontend.head_html}
+	{if $D.R.Frontend.meta_description|default:''}<meta name="description" content="{$D.R.Frontend.meta_description|escape}">{/if}
+	{$D.R.Frontend.head_html|default:''}
 {/block}
 
 {block name="body"}
-<div class="bg-body text-body min-vh-100 d-flex flex-column" data-bs-theme="{$D.R.Frontend.theme}"{if $D.R.Frontend.theme == 'auto'} id="fe-theme-auto"{/if}>
-
-	{block name="header"}
-		<header id="header" class="bg-body border-bottom{if $D.R.Frontend.header_sticky} sticky-top{/if}">
-			<nav class="navbar navbar-expand-lg">
-				<div class="{$D.R.Frontend.layout_container}">
-					<a class="navbar-brand" href="{$D.BasePath}">
-						{if $D.R.Frontend.logo_url}<img src="{$D.R.Frontend.logo_url|escape}" alt="{$D.R.Frontend.site_title|escape}" height="32">{else}{$D.R.Frontend.site_title|escape}{/if}
-					</a>
-					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#fe-nav" aria-controls="fe-nav" aria-expanded="false" aria-label="Menu"><span class="navbar-toggler-icon"></span></button>
-					<div class="collapse navbar-collapse" id="fe-nav">
-						<ul class="navbar-nav me-auto">{block name="navigation_main"}{/block}</ul>
-						<div class="navbar-text">
-							{block name="navigation_top"}
-								{if $D.R.Frontend.show_login_links}
-									{if $D.SESSION.UserId}
-										<a href="{$D.BasePath}account" title="Account"><i class="fas fa-user-circle"></i></a>
-										<a href="{$D.BasePath}logout" title="Logout"><i class="fas fa-sign-out-alt"></i></a>
-									{else}
-										<a href="{$D.BasePath}login" title="Login"><i class="fas fa-sign-in-alt"></i></a>
+	{function name=frontend_menu nodes=[] footer=false depth=0}
+		{foreach $nodes as $node}
+			<li class="{if $footer}mb-2{elseif $depth == 0}nav-item{if $node.Children} dropdown{/if}{/if}">
+				<a class="{if $footer}link-body-emphasis text-decoration-none{elseif $depth == 0}nav-link{if $node.Children} dropdown-toggle{/if}{else}dropdown-item{/if}"
+					href="{$node.Url|escape}"{if !$footer && $depth == 0 && $node.Children} data-bs-toggle="dropdown" aria-expanded="false"{/if}
+					{if $node.Target == '_blank'} target="_blank" rel="noopener noreferrer"{/if}>
+					{if is_array($node.Title)}
+						{if isset($node.Title[$D.R.Frontend.language])}{$node.Title[$D.R.Frontend.language]|escape}{else}{foreach $node.Title as $title}{$title|escape}{break}{/foreach}{/if}
+					{else}{$node.Title|escape}{/if}
+				</a>
+				{if $node.Children}
+					<ul class="{if $footer}list-unstyled ps-3 mt-2{elseif $depth == 0}dropdown-menu{else}list-unstyled ps-3{/if}">
+						{frontend_menu nodes=$node.Children footer=$footer depth=$depth+1}
+					</ul>
+				{/if}
+			</li>
+		{/foreach}
+	{/function}
+	<div class="bg-body text-body min-vh-100 d-flex flex-column">
+		<div id="frontend-topbar" class="bg-body-tertiary border-bottom sticky-top">
+			<div class="{$D.R.Frontend.layout_container|default:'container'|escape} d-flex align-items-center justify-content-between gap-3 py-2">
+				<a class="fw-semibold link-body-emphasis text-decoration-none text-truncate" href="{SCRIPT_NAME}">
+					{$D.R.Frontend.site_title|default:$D.C.Setting->get('fremeo/frontend', 'page_meta_title')|escape}
+				</a>
+				<nav class="d-flex align-items-center gap-3 ms-auto flex-shrink-0" aria-label="Benutzer">
+					{block name="navigation_top"}
+						{if $D.R.Frontend.show_login_links|default:true}
+							{if $D.SESSION.UserId|default:null}
+								<a class="link-body-emphasis text-decoration-none" href="{SCRIPT_NAME}account" title="Mein Konto"><i class="fas fa-user-circle" aria-hidden="true"></i><span class="visually-hidden">Mein Konto</span></a>
+								<a class="link-body-emphasis text-decoration-none" href="{SCRIPT_NAME}logout" title="Abmelden"><i class="fas fa-sign-out-alt" aria-hidden="true"></i><span class="visually-hidden">Abmelden</span></a>
+							{else}
+								<a class="link-body-emphasis text-decoration-none" href="{SCRIPT_NAME}login"><i class="fas fa-sign-in-alt" aria-hidden="true"></i> Anmelden</a>
+							{/if}
+						{/if}
+					{/block}
+				</nav>
+			</div>
+		</div>
+		{block name="header"}
+			<header id="header" class="bg-body border-bottom">
+				<div class="{$D.R.Frontend.layout_container|default:'container'|escape} py-3">
+					<form method="get" action="{SCRIPT_NAME}artikel" role="search" class="d-flex gap-2 mx-auto" style="max-width: 32rem;">
+						<label class="visually-hidden" for="frontend-search">Produkte suchen</label>
+						{input p=['type' => 'search', 'id' => 'frontend-search', 'name' => 'D[SEARCH]', 'value' => $D.SEARCH|default:''|escape, 'placeholder' => 'Produkte suchen']}
+						<button class="btn btn-primary flex-shrink-0" type="submit" aria-label="Suchen" title="Suchen"><i class="fas fa-search" aria-hidden="true"></i></button>
+					</form>
+				</div>
+				<nav class="navbar navbar-expand-lg" aria-label="Hauptnavigation">
+					<div class="{$D.R.Frontend.layout_container|default:'container'|escape}">
+						{if $D.R.Frontend.logo_url|default:''}<a class="navbar-brand" href="{SCRIPT_NAME}"><img src="{$D.R.Frontend.logo_url|escape}" alt="{$D.R.Frontend.site_title|default:''|escape}" height="32"></a>{/if}
+						<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#fe-nav" aria-controls="fe-nav" aria-expanded="false" aria-label="Menue"><span class="navbar-toggler-icon"></span></button>
+						<div class="collapse navbar-collapse" id="fe-nav">
+							<ul class="navbar-nav me-auto">
+								{block name="navigation_main"}
+									{if $D.MODULE.D['fremeo/frontend'].NAVIGATION.D.top_navigation.Active|default:false}
+										{frontend_menu nodes=$D.MODULE.D['fremeo/frontend'].NAVIGATION.D.top_navigation.Tree}
 									{/if}
-								{/if}
-							{/block}
+								{/block}
+							</ul>
 						</div>
 					</div>
-				</div>
-			</nav>
-
-
-			{*Navigationsbeispiel*}
-			<div class="border-bottom mb-3">
-					<nav class="navbar navbar-expand-lg navbar-light bg-white p-0 ">
-						<div class="container">
-							<button class="navbar-toggler mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-								<span>☰ Menu</span>
-							</button>
-							
-							<div class="collapse navbar-collapse" id="navbarScroll">
-								<ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-																												<li class="nav-item dropdown ">
-											<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Artikel</a>
-																							<ul class="dropdown-menu p-1" style="margin-top: -4px;" aria-labelledby="navbarScrollingDropdown">
-													<li><a class="dropdown-item rounded-2" href="schalter">Schalter</a></li>
-												</ul>
-																					</li>
-																			<li class="nav-item  ">
-											<a class="nav-link " href="Industrie">Industrie</a>
-																					</li>
-																		
-								</ul>								
-							</div>
-
-						</div>
+				</nav>
+			</header>
+		{/block}
+		<main class="{$D.R.Frontend.layout_container|default:'container'|escape} py-4 flex-grow-1">
+			{block name="inner_body"}{/block}
+		</main>
+		{block name="footer"}
+			<footer id="footer" class="bg-body-tertiary border-top py-4 mt-4">
+				<div class="{$D.R.Frontend.layout_container|default:'container'|escape} d-flex flex-column flex-md-row justify-content-between gap-4">
+					<div class="text-body-secondary">
+						{if $D.R.Frontend.footer_text|default:''}<p class="mb-2">{$D.R.Frontend.footer_text|escape}</p>{/if}
+						<p class="mb-0">&copy; {date('Y')} BoBa</p>
+					</div>
+					<nav aria-label="Footer">
+						<ul class="list-unstyled mb-0">
+							{if $D.MODULE.D['fremeo/frontend'].NAVIGATION.D.footer_navigation.Active|default:false}
+								{frontend_menu nodes=$D.MODULE.D['fremeo/frontend'].NAVIGATION.D.footer_navigation.Tree footer=true}
+							{/if}
+						</ul>
 					</nav>
 				</div>
-
-		</header>
-	{/block}
-
-	<main class="{$D.R.Frontend.layout_container} py-4 flex-grow-1">
-		{block name="inner_body"}{/block}
-	</main>
-
-	{block name="footer"}
-		<footer id="footer" class="border-top py-3 mt-4">
-			<div class="{$D.R.Frontend.layout_container}">
-				<p class="mb-0 text-body-secondary">{$D.R.Frontend.footer_text|escape}</p>
-			</div>
-		</footer>
-	{/block}
-</div>
+			</footer>
+		{/block}
+	</div>
 {/block}
-
-{block name="body_end"}
-	{if $D.R.Frontend.theme == 'auto'}
-		<script>document.getElementById('fe-theme-auto').dataset.bsTheme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';</script>
-	{/if}
-	{$D.R.Frontend.body_end_html}
-{/block}
+{block name="body_end"}{$D.R.Frontend.body_end_html|default:''}{/block}

@@ -58,6 +58,8 @@ class Frontend {
 			$new = $id($row['NewId'] ?? $old);
 			if (!is_array($row) || $new === '' || $new === '_new' || ($old !== '_new' && !isset($have[$old])) || ($new !== $old && isset($have[$new]))) continue;
 
+			// Das Formular sendet nur geaenderte Felder; fehlende Werte bleiben erhalten.
+			$row += $have[$old] ?? [];
 			if ($new !== $old && $old !== '_new') $U['NAVIGATION']['D'][$old] = '__DELETE__'; # ID geändert: alte entfernen
 			$U['NAVIGATION']['D'][$new] = [
 				'Active'	=> (int)((int)($row['Active'] ?? 1) > 0),

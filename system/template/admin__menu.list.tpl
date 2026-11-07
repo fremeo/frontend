@@ -9,7 +9,7 @@
 {/function}
 
 {block name="inner_body"}
-	<form method="post">
+	<form method="post" id="frontend-menu-form">
 		<input type="hidden" name="R[ACTION]" value="save">
 
 		{foreach from=$D.NAVIGATION.D key="kNAV" item="NAV"}
@@ -60,9 +60,6 @@
 			</div>
 		</div>
 
-		<div style="position:sticky;bottom:0px; background:#eee;width:100%;">
-			<button type="submit" class="btn btn-primary btn-sm">Save</button>
-		</div>
 	</form>
 	{literal}
 	<style>.tree-before{box-shadow:0 -3px 0 #0d6efd}.tree-after{box-shadow:0 3px 0 #0d6efd}.tree-child{outline:2px solid #0d6efd}</style>
@@ -131,4 +128,10 @@
 		});
 	</script>
 	{/literal}
+{/block}
+
+{block name="inner_footer"}
+	<div class="bg-body-tertiary border-top p-2">
+		<button type="submit" form="frontend-menu-form" class="btn btn-primary btn-sm">Save</button>
+	</div>
 {/block}

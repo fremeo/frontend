@@ -31,7 +31,47 @@ Aussagekräftige Analyse‑ und Auswertungsfunktionen liefern wertvolle Einblick
 
 ### Sprachverwaltung
 
+### Navigation und Header
+Die obere Warenkorb-/Kontoleiste bleibt beim Scrollen sichtbar und folgt dem
+aktiven hellen oder dunklen Theme. Die Produktsuche sendet `D[SEARCH]` per GET an
+`artikel`; Suchfilter bleiben Aufgabe des Shop-Moduls.
+
+Unter **Frontend → Menüs** werden `top_navigation` (Hauptnavigation mit
+Dropdowns) und `footer_navigation` (schlichte, vertikale Linkliste) gepflegt.
+Beide unterstuetzen Untereintraege, Sprachtexte und den Aktiv-Schalter.
+Die Migration `20261106144000_navigation` legt fehlende IDs an, ohne vorhandene
+Menues zu ueberschreiben. Beide Menues starten leer und werden vom Benutzer gefuellt.
+Die Save-Leiste der Menueverwaltung liegt ausserhalb des scrollbaren Inhalts im
+Backend-Footer; sie bleibt sichtbar, reserviert ihren Platz und folgt dem Theme.
+Beim Speichern bleiben nicht gesendete Menuefelder unveraendert. Ein explizites
+`Json: []` leert den Baum; nur `__DELETE__` entfernt die gesamte Navigation.
+
+### Themes
+Unter **Einstellungen → Template → Frontend** werden Theme (Basis oder Ableitung)
+und eigenes CSS je Haupt-Theme eingestellt. Zum Testen stehen `basic` und
+`basic__dark_mode` bereit; die Core-Auswahl wird unabhängig davon gespeichert.
+
+Die Quellen liegen in `system/template/theme/`. Core veröffentlicht die aktiven
+statischen Dateien unter `data_c/public/theme/` und liefert sie über
+`/file/theme/<anbieter-id>/<theme>/…?v=<version>` aus. Jeder Theme-Ordner
+enthält nur den aktuellen Stand; Änderungen ersetzen ihn nach erfolgreichem Build.
+Bibliotheken sind mit ihren Versionen unter `vendor/`
+abgelegt, die Ladereihenfolge steht in `theme.json`. Unter
+**Einstellungen → Template → Frontend → Performance** lassen sich CSS-Minimierung,
+JavaScript-Minimierung und CSS-Bündelung getrennt einschalten. Diese
+Schalter gelten nur für den jeweiligen Theme-Anbieter und sind
+standardmäßig aus. Frontend und Core speichern ihre Auswahl in der eigenen
+Moduldatenbank; Frontend-Optimierung verändert die Admin-Assets nicht.
+Eine Variantenwahl durch Besucher folgt in einer späteren Etappe.
+
 ## Installationsanleitung
+Bei lokal weiterentwickelten Modulen koennen Composers installierte Paketmetadaten
+noch den alten Stand ohne PSR-4-Zuordnung enthalten. Der Loader deklariert deshalb
+`fremeo\frontend\` zusaetzlich in seiner `composer.json`. Nach einer Aenderung daran
+`composer dump-autoload --no-scripts --no-plugins` im Projekt ausfuehren.
+Die Tests verwenden denselben Composer-Autoloader wie die Anwendung, ohne die
+Frontend-Klasse separat einzubinden.
+
 Für die Installation des phpApp‑Systems wird der phpApp Loader benötigt. Dieser muss als erstes auf dem System eingerichtet werden. Beim Ausführen installiert der Loader automatisch das phpApp‑Framework, legt alle notwendigen Standardwerte an und erzeugt einen initialen Administrator‑Zugang.
 
 Die eigentliche Installation erfolgt über die Datei setup.php, die im Root‑Verzeichnis abgelegt und anschließend über den Browser aufgerufen wird. Der Installationsprozess läuft vollständig automatisiert ab.

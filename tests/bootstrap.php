@@ -3,7 +3,6 @@
 foreach ([__DIR__ . '/../vendor/autoload.php', __DIR__ . '/../../../autoload.php'] as $autoload) {
 	if (is_file($autoload)) {
 		require $autoload;
-		require_once __DIR__ . '/../system/core/Frontend.php'; # der Projekt-Autoloader kennt fremeo\frontend erst nach einem composer update
 		return;
 	}
 }
