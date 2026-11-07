@@ -20,8 +20,8 @@ $setting['page_favicon'] = [
 $section['Template']['D']['Frontend']['D']['theme'] = 1;
 $setting['theme'] = [
 	'InputType' => 'select', 'Value' => 'basic', 'Label' => 'Theme', 'AllowEmpty' => false,
-	'Description' => 'Theme oder Ableitung fuer die vom Frontend-Template bereitgestellten Layouts.',
-	'Options' => fn ($C) => array_keys($C['Template']->getThemes('fremeo/frontend')),
+	'Description' => 'Template-Herkunft und Theme fuer die Frontend-Layouts gemeinsam auswaehlen.',
+	'Options' => fn ($C) => $C['Template']->getThemeOptions('fremeo/frontend'),
 ];
 foreach (glob(__DIR__ . '/../template/theme/*', GLOB_ONLYDIR) as $dir) {
 	$name = basename($dir);

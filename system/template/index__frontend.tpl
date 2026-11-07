@@ -1,6 +1,6 @@
 {*
 	Layout des Frontends. Theme-Assets und Farbschema liefert der Core ueber die Template-Kette.
-	Bloecke: title, favicon, head, navigation_top, navigation_main, header, inner_body, footer, body_end.
+	Bloecke: title, favicon, head, layout_header, navigation_top, navigation_main, header, layout_main, inner_body, footer, body_end.
 *}
 {block name="title"}{$D.C.Setting->get('fremeo/frontend', 'page_meta_title')|escape}{/block}
 {block name="favicon"}{if $D.R.Frontend.favicon_url|default:''}<link rel="icon" href="{$D.R.Frontend.favicon_url|escape}">{/if}{/block}
@@ -29,6 +29,7 @@
 		{/foreach}
 	{/function}
 	<div class="bg-body text-body min-vh-100 d-flex flex-column">
+		{block name="layout_header"}
 		<div id="frontend-topbar" class="bg-body-tertiary border-bottom sticky-top">
 			<div class="{$D.R.Frontend.layout_container|default:'container'|escape} d-flex align-items-center justify-content-between gap-3 py-2">
 				<a class="fw-semibold link-body-emphasis text-decoration-none text-truncate" href="{SCRIPT_NAME}">
@@ -74,9 +75,12 @@
 				</nav>
 			</header>
 		{/block}
+		{/block}
+		{block name="layout_main"}
 		<main class="{$D.R.Frontend.layout_container|default:'container'|escape} py-4 flex-grow-1">
 			{block name="inner_body"}{/block}
 		</main>
+		{/block}
 		{block name="footer"}
 			<footer id="footer" class="bg-body-tertiary border-top py-4 mt-4">
 				<div class="{$D.R.Frontend.layout_container|default:'container'|escape} d-flex flex-column flex-md-row justify-content-between gap-4">
