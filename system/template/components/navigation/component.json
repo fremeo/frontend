@@ -1,0 +1,9 @@
+{
+    "type": "navigation",
+    "name": "Navigation",
+    "variants": ["horizontal", "vertical"],
+    "defaults": {
+        "variant": "horizontal",
+        "language": "DE"
+    }
+}

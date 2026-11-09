@@ -1,4 +1,11 @@
 # Changelog
+#0.0.2 (2026-11-09, unveroeffentlicht)
++ Navigationskomponente mit component.json und navigation.tpl; Pattern-konformer Navigationseintrag als Datenquelle.
++ Ortsunabhaengige Varianten horizontal und vertical, mehrsprachige Titel und rekursive Menueausgabe ueber eine interne Smarty-Funktion in derselben Datei.
+~ Haupt- und Footer-Navigation ueber das Core-Plugin component eingebunden; bestehende Layout-Bloecke bleiben erhalten.
+- Bisherige Smarty-Funktion frontend_menu entfernt; Child-Templates muessen auf component umgestellt werden.
+~ Core-Mindestabhaengigkeit auf >=0.0.8 <1.0 angehoben.
+~ Renderingtest und Dokumentation an die Komponentenstruktur angepasst.
 #0.0.1
 + Pattern NAVIGATION (Active, Name, Json), Klasse Frontend (set_navigation / get_navigation)
 + Admin: Design -> Menu (admin__menu.list): Navigationen mit eigener ID, Name, Active und Menübaum (URL, Fenster)

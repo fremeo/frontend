@@ -185,6 +185,7 @@ class FrontendTest extends TestCase {
 	public function testLayoutRendersMenusSearchAndOneThemeAwareTopbar(): void {
 		if (!defined('SCRIPT_NAME')) define('SCRIPT_NAME', '/test/');
 		$smarty = new \Smarty();
+		$smarty->addPluginsDir(__DIR__ . '/../../core/system/core/smarty_plugin');
 		$smarty->setCompileDir($this->tmp);
 		$smarty->error_reporting = E_ALL & ~E_WARNING & ~E_NOTICE & ~E_DEPRECATED;
 		$policy = new \Smarty_Security($smarty);
@@ -200,7 +201,10 @@ class FrontendTest extends TestCase {
 		$smarty->assign('D', [
 			'C' => $C, 'SEARCH' => '"><script>alert(1)</script>', 'SESSION' => ['UserId' => 'test'],
 			'R' => ['Frontend' => ['language' => 'DE']],
-			'MODULE' => ['D' => ['fremeo/frontend' => ['NAVIGATION' => ['D' => $this->load()]]]],
+			'MODULE' => ['D' => ['fremeo/frontend' => [
+				'Active' => 1, 'INFO' => ['Type' => 'template', 'ModulDir' => dirname(__DIR__)],
+				'NAVIGATION' => ['D' => $this->load()],
+			]]],
 		]);
 		$input = file_get_contents(__DIR__ . '/../../core/system/template/include/input.tpl');
 		$layout = file_get_contents(__DIR__ . '/../system/template/index__frontend.tpl');

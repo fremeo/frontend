@@ -46,6 +46,31 @@ Backend-Footer; sie bleibt sichtbar, reserviert ihren Platz und folgt dem Theme.
 Beim Speichern bleiben nicht gesendete Menuefelder unveraendert. Ein explizites
 `Json: []` leert den Baum; nur `__DELETE__` entfernt die gesamte Navigation.
 
+### Navigationskomponente
+
+Ab Frontend `0.0.2` und Core `0.0.8` liegt die wiederverwendbare Navigation
+unter `system/template/components/navigation/`. Haupt- und Footer-Navigation
+verwenden denselben Renderer mit den Varianten `horizontal` und `vertical`.
+Beide Varianten sind unabhaengig vom Einsatzort, etwa Header, Seitenleiste oder Footer:
+
+```smarty
+{component module="fremeo/frontend" type="navigation"
+    data=$D.MODULE.D['fremeo/frontend'].NAVIGATION.D.top_navigation
+    id="main-menu"
+    options=['variant' => 'horizontal', 'language' => $D.R.Frontend.language]}
+```
+
+`data` bleibt der vorhandene Navigationseintrag inklusive `Active` und
+aufbereitetem `Tree`. Der Aufrufer stellt den umgebenden `nav`-Bereich bereit.
+Die Ausgabe besitzt einen aeusseren Container mit eindeutiger ID und den
+CSS-Klassen `component component-navigation`. Ohne `id` wird eine ID erzeugt.
+Die Modul-ID ist verpflichtend; Komponenten werden nicht vererbt oder von
+gleichnamigen Komponenten anderer Module ueberschrieben.
+Die bisherige Funktion `frontend_menu` entfaellt. Child-Templates muessen ihre
+Navigation ebenfalls ueber `{component ...}` einbinden. Die gesamte Ausgabe
+liegt in `navigation.tpl`; eine interne, anbieterspezifisch benannte
+Smarty-Funktion rendert die Menuepunkte rekursiv ohne weitere Includes.
+
 ### Themes
 Unter **Einstellungen → Template → Frontend** werden Theme (Basis oder Ableitung)
 und eigenes CSS je Haupt-Theme eingestellt. Zum Testen stehen `basic` und

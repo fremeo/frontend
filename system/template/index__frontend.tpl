@@ -10,24 +10,6 @@
 {/block}
 
 {block name="body"}
-	{function name=frontend_menu nodes=[] footer=false depth=0}
-		{foreach $nodes as $node}
-			<li class="{if $footer}mb-2{elseif $depth == 0}nav-item{if $node.Children} dropdown{/if}{/if}">
-				<a class="{if $footer}link-body-emphasis text-decoration-none{elseif $depth == 0}nav-link{if $node.Children} dropdown-toggle{/if}{else}dropdown-item{/if}"
-					href="{$node.Url|escape}"{if !$footer && $depth == 0 && $node.Children} data-bs-toggle="dropdown" aria-expanded="false"{/if}
-					{if $node.Target == '_blank'} target="_blank" rel="noopener noreferrer"{/if}>
-					{if is_array($node.Title)}
-						{if isset($node.Title[$D.R.Frontend.language])}{$node.Title[$D.R.Frontend.language]|escape}{else}{foreach $node.Title as $title}{$title|escape}{break}{/foreach}{/if}
-					{else}{$node.Title|escape}{/if}
-				</a>
-				{if $node.Children}
-					<ul class="{if $footer}list-unstyled ps-3 mt-2{elseif $depth == 0}dropdown-menu{else}list-unstyled ps-3{/if}">
-						{frontend_menu nodes=$node.Children footer=$footer depth=$depth+1}
-					</ul>
-				{/if}
-			</li>
-		{/foreach}
-	{/function}
 	<div class="bg-body text-body min-vh-100 d-flex flex-column">
 		{block name="layout_header"}
 		<div id="frontend-topbar" class="bg-body-tertiary border-bottom sticky-top">
@@ -63,13 +45,11 @@
 						{if $D.R.Frontend.logo_url|default:''}<a class="navbar-brand" href="{SCRIPT_NAME}"><img src="{$D.R.Frontend.logo_url|escape}" alt="{$D.R.Frontend.site_title|default:''|escape}" height="32"></a>{/if}
 						<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#fe-nav" aria-controls="fe-nav" aria-expanded="false" aria-label="Menue"><span class="navbar-toggler-icon"></span></button>
 						<div class="collapse navbar-collapse" id="fe-nav">
-							<ul class="navbar-nav me-auto">
-								{block name="navigation_main"}
-									{if $D.MODULE.D['fremeo/frontend'].NAVIGATION.D.top_navigation.Active|default:false}
-										{frontend_menu nodes=$D.MODULE.D['fremeo/frontend'].NAVIGATION.D.top_navigation.Tree}
-									{/if}
-								{/block}
-							</ul>
+							{block name="navigation_main"}
+								{if $D.MODULE.D['fremeo/frontend'].NAVIGATION.D.top_navigation.Active|default:false}
+									{component module="fremeo/frontend" type="navigation" data=$D.MODULE.D['fremeo/frontend'].NAVIGATION.D.top_navigation options=['language' => $D.R.Frontend.language]}
+								{/if}
+							{/block}
 						</div>
 					</div>
 				</nav>
@@ -89,11 +69,9 @@
 						<p class="mb-0">&copy; {date('Y')} BoBa</p>
 					</div>
 					<nav aria-label="Footer">
-						<ul class="list-unstyled mb-0">
-							{if $D.MODULE.D['fremeo/frontend'].NAVIGATION.D.footer_navigation.Active|default:false}
-								{frontend_menu nodes=$D.MODULE.D['fremeo/frontend'].NAVIGATION.D.footer_navigation.Tree footer=true}
-							{/if}
-						</ul>
+						{if $D.MODULE.D['fremeo/frontend'].NAVIGATION.D.footer_navigation.Active|default:false}
+							{component module="fremeo/frontend" type="navigation" data=$D.MODULE.D['fremeo/frontend'].NAVIGATION.D.footer_navigation options=['variant' => 'vertical', 'language' => $D.R.Frontend.language]}
+						{/if}
 					</nav>
 				</div>
 			</footer>

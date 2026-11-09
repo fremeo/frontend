@@ -1,13 +1,13 @@
 {
     "name": "fremeo/frontend",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Frontend für fremeo",
     "license": "proprietary",
     "type": "template",
     "keywords": ["fremeo", "fremeo-template", "frontend"],
     "require": {
         "php": "^8.0",
-        "fremeo/core": ">=0.0.7 <1.0"
+        "fremeo/core": ">=0.0.8 <1.0"
     },
     "prefer-stable": true,
     "autoload": {
