@@ -1,5 +1,10 @@
 # Changelog
-#0.0.2 (2026-11-09, unveroeffentlicht)
+#0.0.2 (unveroeffentlicht)
+! Horizontale Navigation richtet Menuepunkte auch ausserhalb einer navbar-expand-Umgebung nebeneinander aus; Dropdowns bleiben ueberlagernd, vertikale Variante unveraendert.
+~ Navigation im Builder waehlt ausschliesslich bestehende Menues aus admin__menu.list; eigene Punkt-/Unterpunktbearbeitung entfernt. Komponentenlokale navigation.php liefert Dropdown und aktuelle Menue-Daten; Layout-Datenquellen bleiben erhalten.
++ Navigations-Manifest um bearbeitbare Ausrichtung ergaenzt; keine Sprachzuordnung im Builder-Popup. Bestehende Template-Sprachauswahl fuer mehrsprachige Titel bleibt erhalten.
++ Builder-Stellen before_content und after_content im Hauptlayout; ohne veroeffentlichte Inhalte keine zusaetzliche HTML-Ausgabe.
+~ Core-Mindestabhaengigkeit >=0.0.8 <1.0; Layouttest an die Builder-Grundlage angepasst. Alle Aenderungen seit v0.0.1 bleiben bis zum naechsten Tag unter 0.0.2.
 + Navigationskomponente mit component.json und navigation.tpl; Pattern-konformer Navigationseintrag als Datenquelle.
 + Ortsunabhaengige Varianten horizontal und vertical, mehrsprachige Titel und rekursive Menueausgabe ueber eine interne Smarty-Funktion in derselben Datei.
 ~ Haupt- und Footer-Navigation ueber das Core-Plugin component eingebunden; bestehende Layout-Bloecke bleiben erhalten.

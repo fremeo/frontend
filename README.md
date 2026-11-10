@@ -52,6 +52,8 @@ Ab Frontend `0.0.2` und Core `0.0.8` liegt die wiederverwendbare Navigation
 unter `system/template/components/navigation/`. Haupt- und Footer-Navigation
 verwenden denselben Renderer mit den Varianten `horizontal` und `vertical`.
 Beide Varianten sind unabhaengig vom Einsatzort, etwa Header, Seitenleiste oder Footer:
+Die horizontale Variante ordnet Punkte mit Abstand nebeneinander an und bricht
+bei Platzmangel um; sie benoetigt keinen umgebenden `navbar-expand`-Container.
 
 ```smarty
 {component module="fremeo/frontend" type="navigation"
@@ -70,6 +72,27 @@ Die bisherige Funktion `frontend_menu` entfaellt. Child-Templates muessen ihre
 Navigation ebenfalls ueber `{component ...}` einbinden. Die gesamte Ausgabe
 liegt in `navigation.tpl`; eine interne, anbieterspezifisch benannte
 Smarty-Funktion rendert die Menuepunkte rekursiv ohne weitere Includes.
+`component.json.settings` definiert die Builder-Popupfelder fuer Ausrichtung
+und ein Dropdown fuer bestehende Menues aus `admin__menu.list`.
+Die Navigation wird im Popup keiner Sprache zugeordnet. Der bestehende
+Template-Parameter `options.language` fuer mehrsprachige Titel bleibt erhalten.
+Die Punkt-/Unterpunktbearbeitung ist ausschliesslich dort verfuegbar, nicht im
+Builder. `options.menu` speichert nur die Menue-ID. Die gleichnamige
+`navigation.php` im Komponentenordner liefert Auswahl und aktuelle Daten;
+kein navigationsspezifischer JS-/PHP-Code liegt in der generischen Builder-UI.
+Ohne Menue-ID bleibt die explizite `data`-Quelle der Layouts erhalten.
+Alte instanzeigene `items` werden nicht migriert und melden einen Fehler.
+Uebernehmen aktualisiert die Vorschau und laesst das Popup offen; OK uebernimmt
+und schliesst. Beide schreiben keine Datenbankwerte.
+
+### Builder-Grundlage (Etappe 1)
+
+Ab Frontend `0.0.2` und Core `0.0.8` stehen im Hauptlayout die Stellen
+`{builder name="before_content"}` und `{builder name="after_content"}` bereit.
+Ohne veroeffentlichte Inhalte erzeugen sie kein HTML. Entwuerfe werden nicht
+oeffentlich angezeigt; eine Bearbeitungsoberflaeche folgt in spaeteren Etappen.
+Child-Templates mit eigenem `layout_main` muessen diese Aufrufe selbst setzen.
+Details: [Page-Builder-Konzept](../core/docs/Konzept_Page_Builder.md).
 
 ### Themes
 Unter **Einstellungen → Template → Frontend** werden Theme (Basis oder Ableitung)

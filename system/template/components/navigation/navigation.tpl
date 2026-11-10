@@ -9,7 +9,7 @@
 				{else}{$node.Title|escape}{/if}
 			</a>
 			{if $node.Children|default:[]}
-				<ul class="{if $vertical}list-unstyled ps-3 mt-2{elseif $depth == 0}dropdown-menu{else}list-unstyled ps-3{/if}">
+				<ul class="{if $vertical}list-unstyled ps-3 mt-2{elseif $depth == 0}dropdown-menu position-absolute{else}list-unstyled ps-3{/if}">
 					{call name=fremeo_frontend_navigation_items nodes=$node.Children vertical=$vertical depth=$depth+1 language=$language}
 				</ul>
 			{/if}
@@ -17,7 +17,7 @@
 	{/foreach}
 {/function}
 {if $data.Active|default:false}
-	<ul class="{if $options.variant == 'vertical'}list-unstyled mb-0{else}navbar-nav me-auto{/if}">
-		{call name=fremeo_frontend_navigation_items nodes=$data.Tree vertical=($options.variant == 'vertical') language=$options.language}
+	<ul class="{if $options.variant == 'vertical'}list-unstyled mb-0{else}navbar-nav flex-row flex-wrap column-gap-3 me-auto{/if}">
+		{call name=fremeo_frontend_navigation_items nodes=$data.Tree|default:[] vertical=($options.variant == 'vertical') language=$options.language}
 	</ul>
 {/if}

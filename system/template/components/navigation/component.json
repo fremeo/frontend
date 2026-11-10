@@ -4,6 +4,19 @@
     "variants": ["horizontal", "vertical"],
     "defaults": {
         "variant": "horizontal",
-        "language": "DE"
+        "language": "DE",
+        "menu": ""
+    },
+    "settings": {
+        "variant": {
+            "type": "string",
+            "label": "Ausrichtung",
+            "enum": ["horizontal", "vertical"]
+        },
+        "menu": {
+            "type": "string",
+            "label": "Navigation",
+            "choices": [{"value": "", "label": "Navigation auswaehlen"}]
+        }
     }
 }

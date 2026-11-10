@@ -195,12 +195,14 @@ class FrontendTest extends TestCase {
 		$smarty->enableSecurity($policy);
 		$C = new \fremeo\core\Container();
 		$C->set('Setting', new class { function get() { return 'Test Shop'; } });
+		$this->db->registerPattern(include __DIR__ . '/../../core/system/default/default.pattern.php');
+		$C->set('Builder', new \fremeo\core\Builder($this->db));
 		$C->set('Security', new \fremeo\core\Security());
 		$this->nav(['_new' => ['NewId' => 'top_navigation', 'Name' => 'Top', 'Json' => self::TREE]]);
 		$this->nav(['_new' => ['NewId' => 'footer_navigation', 'Name' => 'Footer', 'Json' => '[{"Title":{"EN":"Contact","DE":"Kontakt"},"Url":"kontakt","Target":"_blank"}]']]);
 		$smarty->assign('D', [
 			'C' => $C, 'SEARCH' => '"><script>alert(1)</script>', 'SESSION' => ['UserId' => 'test'],
-			'R' => ['Frontend' => ['language' => 'DE']],
+			'R' => ['ModuleId' => 'fremeo/frontend', 'Page' => 'index__frontend', 'Frontend' => ['language' => 'DE']],
 			'MODULE' => ['D' => ['fremeo/frontend' => [
 				'Active' => 1, 'INFO' => ['Type' => 'template', 'ModulDir' => dirname(__DIR__)],
 				'NAVIGATION' => ['D' => $this->load()],

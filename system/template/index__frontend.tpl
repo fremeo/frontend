@@ -58,7 +58,9 @@
 		{/block}
 		{block name="layout_main"}
 		<main class="{$D.R.Frontend.layout_container|default:'container'|escape} py-4 flex-grow-1">
+			{builder name="before_content"}
 			{block name="inner_body"}{/block}
+			{builder name="after_content"}
 		</main>
 		{/block}
 		{block name="footer"}
