@@ -1,6 +1,5 @@
 {
     "name": "fremeo/frontend",
-    "version": "0.0.2",
     "description": "Frontend für fremeo",
     "license": "proprietary",
     "type": "template",

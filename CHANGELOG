@@ -1,5 +1,6 @@
 # Changelog
 #0.0.2 (unveroeffentlicht)
+~ Eigenes Versionsfeld aus composer.json entfernt; Paketversion wird aus Git/VCS abgeleitet.
 ! Horizontale Navigation richtet Menuepunkte auch ausserhalb einer navbar-expand-Umgebung nebeneinander aus; Dropdowns bleiben ueberlagernd, vertikale Variante unveraendert.
 ~ Navigation im Builder waehlt ausschliesslich bestehende Menues aus admin__menu.list; eigene Punkt-/Unterpunktbearbeitung entfernt. Komponentenlokale navigation.php liefert Dropdown und aktuelle Menue-Daten; Layout-Datenquellen bleiben erhalten.
 + Navigations-Manifest um bearbeitbare Ausrichtung ergaenzt; keine Sprachzuordnung im Builder-Popup. Bestehende Template-Sprachauswahl fuer mehrsprachige Titel bleibt erhalten.
